@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace LogAn.UnitTest
 {
     [TestFixture]
     public class Tests
@@ -11,14 +11,7 @@ namespace Tests
             var logAnalyzer = new LogAnalyzer();
             bool result = logAnalyzer.IsValidLogFileName("filewithbadextension.foo");
 
-            Assert.Fail("un implement");
-        }
-    }
-
-    public class LogAnalyzer
-    {
-        public bool IsValidLogFileName(string fileName)
-        {
+            Assert.False(result);
         }
     }
 }
