@@ -1,3 +1,4 @@
+using System.Dynamic;
 using NUnit.Framework;
 
 namespace LogAn.UnitTest
@@ -5,29 +6,30 @@ namespace LogAn.UnitTest
     [TestFixture]
     public class Tests
     {
+        private LogAnalyzer _logAnalyzer;
+
+        [SetUp]
+        public void Init()
+        {
+            _logAnalyzer = new LogAnalyzer();
+        }
+
         [Test]
         public void IsValidLogFileName_BadExtension_ReturnsFalse()
         {
-            var logAnalyzer = new LogAnalyzer();
-            bool result = logAnalyzer.IsValidLogFileName("fileWithBadExtension.foo");
-
-            Assert.False(result);
+            Assert.False(_logAnalyzer.IsValidLogFileName("fileWithBadExtension.foo"));
         }
 
         [Test]
         public void IsValidLogFileName_GoodExtensionLowerCase_ReturnsTrue()
         {
-            var logAnalyzer = new LogAnalyzer();
-            var result = logAnalyzer.IsValidLogFileName("fileWithGoodExtension.slf");
-            Assert.True(result);
+            Assert.True(_logAnalyzer.IsValidLogFileName("fileWithGoodExtension.slf"));
         }
 
         [Test]
         public void IsValidLogFileName_GoodExtensionUpperCase_ReturnsTrue()
         {
-            var logAnalyzer = new LogAnalyzer();
-            var result = logAnalyzer.IsValidLogFileName("fileWithGoodExtension.SLF");
-            Assert.True(result);
+            Assert.True(_logAnalyzer.IsValidLogFileName("fileWithGoodExtension.SLF"));
         }
     }
 }
