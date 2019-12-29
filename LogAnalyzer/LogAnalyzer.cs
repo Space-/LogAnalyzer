@@ -1,14 +1,15 @@
-﻿using System;
-
-public class LogAnalyzer
+﻿namespace LogAn.UnitTest
 {
-    public bool IsValidLogFileName(string fileName)
+    public class LogAnalyzer
     {
-        if (!fileName.EndsWith(".sln"))
+        public bool IsValidLogFileName(string fileName)
         {
-            return false;
-        }
+            if (!fileName.EndsWith(".slf"))
+            {
+                return false;
+            }
 
-        return true;
+            return true;
+        }
     }
 }
