@@ -18,7 +18,7 @@ namespace LogAn.UnitTest
         public void IsValidLogFileName_GoodExtensionLowerCase_ReturnsTrue()
         {
             var logAnalyzer = new LogAnalyzer();
-            var result = logAnalyzer.IsValidLogFileName("fileWithGoodExtension.slf");
+            var result = logAnalyzer.IsValidLogFileName("fileWithGoodExtension.SLF");
             Assert.True(result);
         }
     }
