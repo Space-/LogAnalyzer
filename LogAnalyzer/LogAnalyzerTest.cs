@@ -1,3 +1,4 @@
+using System;
 using System.Dynamic;
 using NUnit.Framework;
 
@@ -21,6 +22,20 @@ namespace LogAn.UnitTest
         public void IsValidLogFileName_VariousExtensions_CheckThem(string fileName, bool expected)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
+        }
+
+        [Test]
+        public void IsValidLogFileName_EmptyFileName_Throws_Exception()
+        {
+            var logAnalyzer = MakeAnalyzer();
+
+            var ex = Assert.Catch<ArgumentException>(() => logAnalyzer.IsValidLogFileName(string.Empty));
+            StringAssert.Contains("filename has to be provided", ex.Message);
+        }
+
+        private LogAnalyzer MakeAnalyzer()
+        {
+            return new LogAnalyzer();
         }
     }
 }
