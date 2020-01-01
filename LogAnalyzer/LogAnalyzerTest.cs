@@ -12,7 +12,7 @@ namespace LogAn.UnitTest
         [SetUp]
         public void Init()
         {
-            _logAnalyzer = new LogAnalyzer();
+            _logAnalyzer = MakeAnalyzer();
         }
 
         [TestCase("fileWithBadExtension.foo", false)]
@@ -27,10 +27,15 @@ namespace LogAn.UnitTest
         [Test]
         public void IsValidLogFileName_EmptyFileName_Throws_Exception()
         {
-            var logAnalyzer = MakeAnalyzer();
-
-            var ex = Assert.Catch<ArgumentException>(() => logAnalyzer.IsValidLogFileName(string.Empty));
+            var ex = Assert.Catch<ArgumentException>(() => _logAnalyzer.IsValidLogFileName(string.Empty));
             StringAssert.Contains("filename has to be provided", ex.Message);
+        }
+
+        [TestCase("badName.foo", false)]
+        [TestCase("goodName.slf", true)]
+        public void IsValidLogFileName_WhenCalled_ChangesWasLastFileNameValid(string fileName, bool expected)
+        {
+            Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
         }
 
         private LogAnalyzer MakeAnalyzer()
