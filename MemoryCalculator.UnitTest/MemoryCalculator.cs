@@ -6,7 +6,9 @@ namespace MemoryCalculator.UnitTest
 
         public double Sum()
         {
-            return _sum;
+            int temp = _sum;
+            _sum = 0;
+            return temp;
         }
 
         public void Add(int number)

@@ -20,7 +20,7 @@ namespace MemoryCalculator.UnitTest
         }
 
         [Test]
-        public void Add_WhenCalled_Sum()
+        public void Add_WhenCalled_ChangesSum()
         {
             _calc.Add(1);
             ResultShouldBe(1);
