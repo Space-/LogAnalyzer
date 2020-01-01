@@ -9,7 +9,7 @@ namespace LogAn.UnitTest
 
         public bool IsValidLogFileName(string fileName)
         {
-            var mgr = new FileExtensionManager();
+            IExtensionManager mgr = new FileExtensionManager();
             return mgr.IsValid(fileName);
         }
     }
