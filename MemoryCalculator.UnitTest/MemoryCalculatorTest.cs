@@ -5,19 +5,30 @@ namespace MemoryCalculator.UnitTest
     [TestFixture]
     internal class MemoryCalculatorTest
     {
+        private MemoryCalculator _calc;
+
+        [SetUp]
+        public void Init()
+        {
+            _calc = new MemoryCalculator();
+        }
+
         [Test]
         public void Sum_ByDefault_ReturnsZero()
         {
-            var calc = new MemoryCalculator();
-            Assert.AreEqual(0, calc.Sum());
+            ResultShouldBe(0);
         }
 
         [Test]
         public void Add_WhenCalled_Sum()
         {
-            var calc = new MemoryCalculator();
-            calc.Add(1);
-            Assert.AreEqual(1, calc.Sum());
+            _calc.Add(1);
+            ResultShouldBe(1);
+        }
+
+        private void ResultShouldBe(int expectedSum)
+        {
+            Assert.AreEqual(expectedSum, _calc.Sum());
         }
     }
 }
