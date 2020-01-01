@@ -9,15 +9,29 @@ namespace LogAn.UnitTest
 
         public bool IsValidLogFileName(string fileName)
         {
-            WasLastFileNameValid = false;
+            var mgr = new FileExtensionManager();
+            return mgr.IsValid(fileName);
+        }
+    }
+
+    public class FileExtensionManager : IExtensionManager
+    {
+        public bool IsValid(string fileName)
+        {
+            //            WasLastFileNameValid = false;
             if (fileName.Equals(string.Empty))
             {
                 throw new ArgumentException("filename has to be provided");
             }
 
-            WasLastFileNameValid = true;
+            //            WasLastFileNameValid = true;
 
             return fileName.EndsWith(".SLF", StringComparison.CurrentCultureIgnoreCase);
         }
+    }
+
+    public interface IExtensionManager
+    {
+        bool IsValid(string fileName);
     }
 }
