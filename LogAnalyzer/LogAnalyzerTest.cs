@@ -21,7 +21,7 @@ namespace LogAn.UnitTest
         [Test]
         public void IsValidLogFileName_VariousExtensions_CheckThem(string fileName, bool expected)
         {
-            Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
+            ValidateResultShouldBe(expected, fileName);
         }
 
         [Test]
@@ -34,6 +34,11 @@ namespace LogAn.UnitTest
         [TestCase("badName.foo", false)]
         [TestCase("goodName.slf", true)]
         public void IsValidLogFileName_WhenCalled_ChangesWasLastFileNameValid(string fileName, bool expected)
+        {
+            ValidateResultShouldBe(expected, fileName);
+        }
+
+        private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
         }
