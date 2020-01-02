@@ -5,11 +5,7 @@ namespace LogAn.UnitTest
 {
     public class LogAnalyzer
     {
-        private IExtensionManager _manager;
-
-        public LogAnalyzer()
-        {
-        }
+        private readonly IExtensionManager _manager;
 
         public LogAnalyzer(IExtensionManager mgr)
         {
