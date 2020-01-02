@@ -1,5 +1,6 @@
 using System;
 using System.Dynamic;
+using LogAn.UnitTest.ExtensionManager;
 using NUnit.Framework;
 
 namespace LogAn.UnitTest
@@ -38,6 +39,15 @@ namespace LogAn.UnitTest
             ValidateResultShouldBe(expected, fileName);
         }
 
+        [Test]
+        public void IsValidFileName_NameSupportedExtension_ReturnsTrue()
+        {
+            var fakeManager = new FakeExtensionManager { WillBeValid = true };
+            var logAnalyzer = new LogAnalyzer(fakeManager);
+            var result = logAnalyzer.IsValidLogFileName("short.txt");
+            Assert.True(result);
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -45,7 +55,17 @@ namespace LogAn.UnitTest
 
         private LogAnalyzer MakeAnalyzer()
         {
-            return new LogAnalyzer();
+            return new LogAnalyzer(new FileExtensionManager());
+        }
+    }
+
+    internal class FakeExtensionManager : IExtensionManager
+    {
+        public bool WillBeValid { get; set; }
+
+        public bool IsValid(string fileName)
+        {
+            return WillBeValid;
         }
     }
 }
