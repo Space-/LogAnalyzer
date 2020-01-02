@@ -48,6 +48,15 @@ namespace LogAn.UnitTest
             Assert.True(result);
         }
 
+        [Test]
+        public void IsValidFileName_ExtManagerThrowsException_ReturnsFalse()
+        {
+            var fakeExtensionManager = new FakeExtensionManager { WillThrow = new Exception("this is fake") };
+            var logAnalyzer = new LogAnalyzer(fakeExtensionManager);
+            var result = logAnalyzer.IsValidLogFileName("anything.anyExtension");
+            Assert.False(result);
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -62,9 +71,21 @@ namespace LogAn.UnitTest
     internal class FakeExtensionManager : IExtensionManager
     {
         public bool WillBeValid { get; set; }
+        public Exception WillThrow = null;
 
         public bool IsValid(string fileName)
         {
+            try
+            {
+                if (WillThrow != null)
+                {
+                    throw WillThrow;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
             return WillBeValid;
         }
     }
