@@ -1,5 +1,6 @@
 using System;
 using System.Dynamic;
+using System.Runtime.CompilerServices;
 using LogAn.UnitTest.ExtensionManager;
 using NUnit.Framework;
 
@@ -42,9 +43,11 @@ namespace LogAn.UnitTest
         [Test]
         public void IsValidFileName_NameSupportedExtension_ReturnsTrue()
         {
-            var fakeManager = new FakeExtensionManager { WillBeValid = true };
-            var logAnalyzer = new LogAnalyzer(fakeManager);
-            var result = logAnalyzer.IsValidLogFileName("short.txt");
+            var fakeExtensionManager = new FileExtensionManager();
+            ExtensionManagerFactory.SetManager(fakeExtensionManager);
+
+            var logAnalyzer = new LogAnalyzer();
+            var result = logAnalyzer.IsValidLogFileName("LongLongLong.slf");
             Assert.True(result);
         }
 
@@ -65,6 +68,26 @@ namespace LogAn.UnitTest
         private LogAnalyzer MakeAnalyzer()
         {
             return new LogAnalyzer(new FileExtensionManager());
+        }
+    }
+
+    public class ExtensionManagerFactory
+    {
+        private static IExtensionManager _customerManager = null;
+
+        public static void SetManager(IExtensionManager mgr)
+        {
+            _customerManager = mgr;
+        }
+
+        public static IExtensionManager Create()
+        {
+            if (_customerManager != null)
+            {
+                return _customerManager;
+            }
+
+            return new FileExtensionManager();
         }
     }
 
