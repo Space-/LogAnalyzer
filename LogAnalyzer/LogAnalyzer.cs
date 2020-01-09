@@ -1,5 +1,5 @@
-﻿using System.IO;
-using LogAn.UnitTest.ExtensionManager;
+﻿using LogAn.UnitTest.ExtensionManager;
+using System.IO;
 
 namespace LogAn.UnitTest
 {

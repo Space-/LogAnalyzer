@@ -1,8 +1,6 @@
-using System;
-using System.Dynamic;
-using System.Runtime.CompilerServices;
 using LogAn.UnitTest.ExtensionManager;
 using NUnit.Framework;
+using System;
 
 namespace LogAn.UnitTest
 {
@@ -73,7 +71,7 @@ namespace LogAn.UnitTest
 
     public class ExtensionManagerFactory
     {
-        private static IExtensionManager _customerManager = null;
+        private static IExtensionManager _customerManager;
 
         public static void SetManager(IExtensionManager mgr)
         {
