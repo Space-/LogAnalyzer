@@ -19,7 +19,12 @@ namespace LogAn.UnitTest
 
         public bool IsValidLogFileName(string fileName)
         {
-            return _manager.IsValid(fileName) && Path.GetFileNameWithoutExtension(fileName).Length > 5;
+            return GetManager().IsValid(fileName) && Path.GetFileNameWithoutExtension(fileName).Length > 5;
+        }
+
+        protected virtual IExtensionManager GetManager()
+        {
+            return new FileExtensionManager();
         }
     }
 }
