@@ -11,9 +11,14 @@ namespace LogAn.UnitTest
             _manager = manager;
         }
 
-        protected override IExtensionManager GetManager()
+        //        protected override IExtensionManager GetManager()
+        //        {
+        //            return _manager;
+        //        }
+
+        public override bool IsValidLogFileName(string fileName)
         {
-            return _manager;
+            return fileName.Equals("file.ext");
         }
     }
 }

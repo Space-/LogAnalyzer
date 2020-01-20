@@ -61,13 +61,13 @@ namespace LogAn.UnitTest
         [Test]
         public void OverrideTest()
         {
-            var stub = new FakeExtensionManager();
-            stub.WillBeValid = true;
-
+            var stub = new FakeExtensionManager { WillBeValid = true };
             var logan = new TestableLogAnalyzer(stub);
-            var result = logan.IsValidLogFileName("file.txt");
+            const string fileName = "file.ext";
 
-            Assert.True(result);
+            var result = logan.IsValidLogFileName(fileName);
+
+            Assert.True(result, $"file name should be {fileName}");
         }
 
         private void ValidateResultShouldBe(bool expected, string fileName)

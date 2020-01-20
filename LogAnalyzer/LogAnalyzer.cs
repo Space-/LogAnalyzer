@@ -17,14 +17,14 @@ namespace LogAn.UnitTest
             _manager = mgr;
         }
 
-        public bool IsValidLogFileName(string fileName)
+        public virtual bool IsValidLogFileName(string fileName)
         {
             return GetManager().IsValid(fileName) && Path.GetFileNameWithoutExtension(fileName).Length > 5;
         }
 
         protected virtual IExtensionManager GetManager()
         {
-            return new FileExtensionManager();
+            return _manager;
         }
     }
 }
