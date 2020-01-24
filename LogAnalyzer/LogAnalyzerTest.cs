@@ -15,6 +15,13 @@ namespace LogAn.UnitTest
             _logAnalyzer = MakeAnalyzer();
         }
 
+        [Test]
+        public void Test_Internal_Class_MyInternalClassTest_Can_Be_Access()
+        {
+            var myClass = new MyInternalClass("Bruce");
+            Assert.AreEqual("Bruce", myClass.Name);
+        }
+
         [TestCase("fileWithBadExtension.foo", false)]
         [TestCase("fileWithGoodExtension.slf", true)]
         [TestCase("fileWithGoodExtension.SLF", true)]
@@ -95,7 +102,7 @@ namespace LogAn.UnitTest
                     throw WillThrow;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
