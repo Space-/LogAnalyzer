@@ -18,7 +18,7 @@ namespace LogAn.UnitTest
 
         public override bool IsValidLogFileName(string fileName)
         {
-            return fileName.Equals("file.ext");
+            return _manager.IsValid(fileName);
         }
     }
 }
