@@ -6,6 +6,7 @@ namespace LogAn.UnitTest
     public class LogAnalyzer
     {
         private readonly IExtensionManager _manager;
+        private readonly IWebService _webService;
 
         public LogAnalyzer()
         {
@@ -17,6 +18,11 @@ namespace LogAn.UnitTest
             _manager = mgr;
         }
 
+        public LogAnalyzer(IWebService webService)
+        {
+            _webService = webService;
+        }
+
         public virtual bool IsValidLogFileName(string fileName)
         {
             return GetManager().IsValid(fileName) && Path.GetFileNameWithoutExtension(fileName).Length > 5;
@@ -26,5 +32,18 @@ namespace LogAn.UnitTest
         {
             return _manager;
         }
+
+        public void Analyze(string fileName)
+        {
+            if (fileName.Length < 8)
+            {
+                _webService.LogError($"Filename too short: {fileName}");
+            }
+        }
+    }
+
+    public interface IWebService
+    {
+        void LogError(string fileName);
     }
 }

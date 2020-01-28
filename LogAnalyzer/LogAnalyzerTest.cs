@@ -77,6 +77,17 @@ namespace LogAn.UnitTest
             Assert.True(result, $"file name should be {fileName}");
         }
 
+        [Test]
+        public void Analyze_TooShortFileName_CallsWebService()
+        {
+            var mockService = new FakeWebService();
+            var logAnalyzer = new LogAnalyzer(mockService);
+            var tooShortFileName = "abc.ext";
+
+            logAnalyzer.Analyze(tooShortFileName);
+            StringAssert.Contains($"Filename too short: {tooShortFileName}", mockService.LastError);
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -85,6 +96,16 @@ namespace LogAn.UnitTest
         private LogAnalyzer MakeAnalyzer()
         {
             return new LogAnalyzer(new FileExtensionManager());
+        }
+    }
+
+    public class FakeWebService : IWebService
+    {
+        public string LastError { get; private set; }
+
+        public void LogError(string errorMessage)
+        {
+            LastError = errorMessage;
         }
     }
 
