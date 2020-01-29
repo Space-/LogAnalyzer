@@ -23,7 +23,12 @@ namespace LogAn.UnitTest
                 }
                 catch (Exception e)
                 {
-                    _email.SendEmail("someone@somewhere.com", "can't log", e.Message);
+                    _email.SendEmail(new EmailInfo()
+                    {
+                        To = "someone@somewhere.com",
+                        Body = e.Message,
+                        Subject = "can't log"
+                    });
                 }
             }
         }

@@ -95,10 +95,17 @@ namespace LogAn.UnitTest
             var mockEmail = new FakeEmailService();
             var log = new LogAnalyzerTwo(stubService, mockEmail);
             var tooShortFileName = "abc.ext";
+
             log.Analyze(tooShortFileName);
-            StringAssert.Contains("someone@somewhere.com", mockEmail.To);
-            StringAssert.Contains("fake exception", mockEmail.Body);
-            StringAssert.Contains("can't log", mockEmail.Subject);
+
+            var expectedEmail = new EmailInfo()
+            {
+                Body = "fake exception",
+                To = "someone@somewhere.com",
+                Subject = "can't log"
+            };
+
+            Assert.True(expectedEmail.Equals(mockEmail.Email));
         }
 
         private void ValidateResultShouldBe(bool expected, string fileName)
@@ -112,17 +119,25 @@ namespace LogAn.UnitTest
         }
     }
 
+    public class EmailInfo
+    {
+        public string Body;
+        public string To;
+        public string Subject;
+
+        public bool Equals(EmailInfo emailInfo)
+        {
+            return Body.Equals(emailInfo.Body) && To.Equals(emailInfo.To) && Subject.Equals(emailInfo.Subject);
+        }
+    }
+
     public class FakeEmailService : IEmailService
     {
-        public string To { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
+        public EmailInfo Email = null;
 
-        public void SendEmail(string to, string subject, string body)
+        public void SendEmail(EmailInfo emailInfo)
         {
-            To = to;
-            Subject = subject;
-            Body = body;
+            Email = emailInfo;
         }
     }
 
