@@ -1,6 +1,8 @@
 using LogAn.UnitTest.ExtensionManager;
 using NUnit.Framework;
 using System;
+using Castle.Core.Logging;
+using NSubstitute;
 
 namespace LogAn.UnitTest
 {
@@ -84,8 +86,22 @@ namespace LogAn.UnitTest
             var logAnalyzer = new LogAnalyzer(mockService);
             var tooShortFileName = "abc.ext";
 
-            logAnalyzer.Analyze(tooShortFileName);
+            logAnalyzer.AnalyzeFileName(tooShortFileName);
             StringAssert.Contains($"Filename too short: {tooShortFileName}", mockService.LastError);
+        }
+
+        [Test]
+        public void Analyze_TooBigFileSize_CallLogger()
+        {
+            var logger = Substitute.For<ILogger>();
+            var analyzer = new LogAnalyzer(logger)
+            {
+                MinNameLength = 6
+            };
+            var fileSize = 101;
+
+            analyzer.AnalyzeFileSize(fileSize);
+            logger.Received().Error($"File size {fileSize} too big");
         }
 
         [Test]

@@ -1,5 +1,6 @@
 ﻿using LogAn.UnitTest.ExtensionManager;
 using System.IO;
+using Castle.Core.Logging;
 
 namespace LogAn.UnitTest
 {
@@ -7,6 +8,8 @@ namespace LogAn.UnitTest
     {
         private readonly IExtensionManager _manager;
         private readonly IWebService _webService;
+        private readonly ILogger _logger;
+        public int MinNameLength = 8;
 
         public LogAnalyzer()
         {
@@ -23,6 +26,11 @@ namespace LogAn.UnitTest
             _webService = webService;
         }
 
+        public LogAnalyzer(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public virtual bool IsValidLogFileName(string fileName)
         {
             return GetManager().IsValid(fileName) && Path.GetFileNameWithoutExtension(fileName).Length > 5;
@@ -33,11 +41,19 @@ namespace LogAn.UnitTest
             return _manager;
         }
 
-        public void Analyze(string fileName)
+        public void AnalyzeFileName(string fileName)
         {
-            if (fileName.Length < 8)
+            if (fileName.Length < MinNameLength)
             {
                 _webService.LogError($"Filename too short: {fileName}");
+            }
+        }
+
+        public void AnalyzeFileSize(int fileSize)
+        {
+            if (fileSize > 100)
+            {
+                _logger.Error($"File size {fileSize} too big");
             }
         }
     }
