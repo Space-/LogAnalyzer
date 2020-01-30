@@ -156,11 +156,6 @@ namespace LogAn.UnitTest
         }
     }
 
-    public interface IFileNameRules
-    {
-        bool IsValidFileName(string fileName);
-    }
-
     public class FakeEmailService : IEmailService
     {
         public EmailInfo Email = null;
