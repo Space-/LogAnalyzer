@@ -1,8 +1,9 @@
+using Castle.Core.Logging;
 using LogAn.UnitTest.ExtensionManager;
+using LogAn.UnitTest.Interface;
+using NSubstitute;
 using NUnit.Framework;
 using System;
-using Castle.Core.Logging;
-using NSubstitute;
 
 namespace LogAn.UnitTest
 {

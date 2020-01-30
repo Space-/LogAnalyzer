@@ -1,6 +1,7 @@
-﻿using LogAn.UnitTest.ExtensionManager;
+﻿using Castle.Core.Logging;
+using LogAn.UnitTest.ExtensionManager;
+using LogAn.UnitTest.Interface;
 using System.IO;
-using Castle.Core.Logging;
 
 namespace LogAn.UnitTest
 {

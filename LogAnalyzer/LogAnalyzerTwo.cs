@@ -1,3 +1,4 @@
+using LogAn.UnitTest.Interface;
 using System;
 
 namespace LogAn.UnitTest

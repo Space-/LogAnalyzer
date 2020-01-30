@@ -1,4 +1,4 @@
-﻿namespace LogAn.UnitTest
+﻿namespace LogAn.UnitTest.Interface
 {
     public interface IWebService
     {
