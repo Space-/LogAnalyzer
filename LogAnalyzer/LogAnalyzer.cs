@@ -10,6 +10,7 @@ namespace LogAn.UnitTest
         private readonly IWebService _webService;
         private readonly ILogger _logger;
         public int MinNameLength = 8;
+        public int MaxFileSize = 50;
 
         public LogAnalyzer()
         {
@@ -51,9 +52,9 @@ namespace LogAn.UnitTest
 
         public void AnalyzeFileSize(int fileSize)
         {
-            if (fileSize > 100)
+            if (fileSize > MaxFileSize)
             {
-                _logger.Error($"File size {fileSize} too big");
+                _logger.Error($"File size {fileSize} too big, it should be less than max size {MaxFileSize}");
             }
         }
     }

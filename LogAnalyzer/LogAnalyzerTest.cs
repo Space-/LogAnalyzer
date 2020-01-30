@@ -94,14 +94,17 @@ namespace LogAn.UnitTest
         public void Analyze_TooBigFileSize_CallLogger()
         {
             var logger = Substitute.For<ILogger>();
-            var analyzer = new LogAnalyzer(logger)
+            var maxFileSize = 100;
+            var logAnalyzer = new LogAnalyzer(logger)
             {
-                MinNameLength = 6
+                MaxFileSize = maxFileSize
             };
-            var fileSize = 101;
 
-            analyzer.AnalyzeFileSize(fileSize);
-            logger.Received().Error($"File size {fileSize} too big");
+            var tooBigFileSize = 101;
+
+            logAnalyzer.AnalyzeFileSize(tooBigFileSize);
+
+            logger.Received().Error($"File size {tooBigFileSize} too big, it should be less than max size {maxFileSize}");
         }
 
         [Test]
