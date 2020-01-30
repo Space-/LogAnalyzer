@@ -146,6 +146,27 @@ namespace LogAn.UnitTest
             Assert.Throws<Exception>(() => fakeRules.IsValidFileName("anything.txt"));
         }
 
+        // p.123
+        [Test]
+        public void Analyze_LoggerThrows_CallsWebService()
+        {
+            var mockService = Substitute.For<IWebService>();
+            var stubLogger = Substitute.For<ILogger>();
+
+            stubLogger.When(logger => logger.Error(Arg.Any<string>()))
+                .Do(info => throw new Exception("fake exception"));
+
+            var logAnalyzer = new LogAnalyzerTwo(mockService, stubLogger)
+            {
+                MaxFileSize = 100
+            };
+
+            var tooBigFileSize = 101;
+
+            logAnalyzer.AnalyzeFileSize(tooBigFileSize);
+            mockService.Received().Write(Arg.Is<string>(s => s.Contains("fake exception")));
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -171,6 +192,7 @@ namespace LogAn.UnitTest
     {
         public string LastError { get; private set; }
         public Exception ToThrow { get; set; }
+        public string MessageToWebService { get; set; }
 
         public void LogError(string errorMessage)
         {
@@ -180,6 +202,11 @@ namespace LogAn.UnitTest
             {
                 throw ToThrow;
             }
+        }
+
+        public void Write(string message)
+        {
+            MessageToWebService = message;
         }
     }
 
