@@ -135,6 +135,16 @@ namespace LogAn.UnitTest
             Assert.True(fakeRules.IsValidFileName("anything.txt"));
         }
 
+        [Test]
+        public void Returns_ArgAny_Throws()
+        {
+            var fakeRules = Substitute.For<IFileNameRules>();
+            fakeRules.When(x => x.IsValidFileName(Arg.Any<string>()))
+                .Do(context => throw new Exception("fake exception"));
+
+            Assert.Throws<Exception>(() => fakeRules.IsValidFileName("anything.txt"));
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
