@@ -127,6 +127,14 @@ namespace LogAn.UnitTest
             Assert.True(expectedEmail.Equals(mockEmail.Email));
         }
 
+        [Test]
+        public void Returns_ByDefault_WorksForHardCodedArgument()
+        {
+            var fakeRules = Substitute.For<IFileNameRules>();
+            fakeRules.IsValidFileName(Arg.Any<string>()).Returns(true);
+            Assert.True(fakeRules.IsValidFileName("anything.txt"));
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -136,6 +144,11 @@ namespace LogAn.UnitTest
         {
             return new LogAnalyzer(new FileExtensionManager());
         }
+    }
+
+    public interface IFileNameRules
+    {
+        bool IsValidFileName(string fileName);
     }
 
     public class FakeEmailService : IEmailService
