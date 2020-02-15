@@ -32,6 +32,11 @@ namespace LogAn.UnitTest
                 try
                 {
                     _service.LogError($"Filename too short: {fileName}");
+                    _service.Write(new ErrorInfo()
+                    {
+                        Severity = 1000,
+                        Message = $"Filename too short: {fileName}"
+                    });
                 }
                 catch (Exception e)
                 {

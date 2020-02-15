@@ -182,9 +182,10 @@ namespace LogAn.UnitTest
                 MinNameLength = 10
             };
 
-            analyzer.Analyze("Short.txt");
+            var fileName = "Short.txt";
+            analyzer.Analyze(fileName);
 
-            mockService.Received().Write(Arg.Is<ErrorInfo>(info => info.Severity == 1000 && info.Message.Contains("fake exception")));
+            mockService.Received().Write(Arg.Is<ErrorInfo>(info => info.Severity == 1000 && info.Message.Equals($"Filename too short: {fileName}")));
         }
 
         private void ValidateResultShouldBe(bool expected, string fileName)
