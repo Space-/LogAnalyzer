@@ -167,6 +167,26 @@ namespace LogAn.UnitTest
             mockService.Received().Write(Arg.Is<string>(s => s.Contains("fake exception")));
         }
 
+        // p.124
+        [Test]
+        public void Analyze_LoggerThrows_CallsWebServiceWithNSubObject()
+        {
+            var mockService = Substitute.For<IWebService>();
+            var stubLogger = Substitute.For<ILogger>();
+
+            stubLogger.When(logger => logger.Error(Arg.Any<string>()))
+                .Do(info => throw new Exception("fake exception"));
+
+            var analyzer = new LogAnalyzerTwo(mockService, stubLogger)
+            {
+                MinNameLength = 10
+            };
+
+            analyzer.Analyze("Short.txt");
+
+            mockService.Received().Write(Arg.Is<ErrorInfo>(info => info.Severity == 1000 && info.Message.Contains("fake exception")));
+        }
+
         private void ValidateResultShouldBe(bool expected, string fileName)
         {
             Assert.AreEqual(expected, _logAnalyzer.IsValidLogFileName(fileName));
@@ -176,6 +196,12 @@ namespace LogAn.UnitTest
         {
             return new LogAnalyzer(new FileExtensionManager());
         }
+    }
+
+    public class ErrorInfo
+    {
+        public int Severity { get; set; }
+        public string Message { get; set; }
     }
 
     public class FakeEmailService : IEmailService
@@ -207,6 +233,11 @@ namespace LogAn.UnitTest
         public void Write(string message)
         {
             MessageToWebService = message;
+        }
+
+        public void Write(ErrorInfo message)
+        {
+            throw new NotImplementedException();
         }
     }
 

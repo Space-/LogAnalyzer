@@ -5,5 +5,7 @@
         void LogError(string fileName);
 
         void Write(string message);
+
+        void Write(ErrorInfo message);
     }
 }
