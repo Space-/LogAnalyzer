@@ -1,6 +1,5 @@
 using System;
 using NSubstitute;
-using NSubstitute.Core.Events;
 using NUnit.Framework;
 
 namespace PresenterTests.UnitTest
@@ -31,7 +30,7 @@ namespace PresenterTests.UnitTest
 
         public void OnLoaded()
         {
-            _view.Render("Hello world11");
+            _view.Render("Hello world");
         }
     }
 
